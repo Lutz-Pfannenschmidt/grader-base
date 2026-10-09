@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:grader-base:grader-result",
+  "title": "GraderResult",
+  "description": "The single JSON object a grader-base derived image prints on stdout as the last line. This is the canonical, shared schema for both the build and grade stages.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["steps", "failure"],
+  "properties": {
+    "steps": {
+      "type": "array",
+      "description": "Named build/check stages; empty when the image produced no structured steps.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "logs", "failure"],
+        "properties": {
+          "name": { "type": "string" },
+          "logs": { "type": "array", "items": { "type": "string" } },
+          "failure": { "type": "boolean" }
+        }
+      }
+    },
+    "failure": {
+      "type": "boolean",
+      "description": "Overall outcome (true when any step failed or tests failed)."
+    },
+    "tests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run", "passed", "failures", "errors", "failure"],
+      "description": "Optional; omitted when no tests run (e.g. a step with on_failure: stop failed).",
+      "properties": {
+        "run": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of tests run (provided by the test runner, not derived)."
+        },
+        "passed": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Names of passing tests (provided by the test runner, not derived)."
+        },
+        "failures": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TestFailure" },
+          "description": "Failed assertions."
+        },
+        "errors": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TestFailure" },
+          "description": "Setup/teardown errors."
+        },
+        "failure": {
+          "type": "boolean",
+          "description": "true when failures or errors are non-empty."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "TestFailure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "traceback"],
+      "properties": {
+        "method": { "type": "string" },
+        "traceback": { "type": "string" }
+      }
+    }
+  }
+}

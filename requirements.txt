@@ -1,0 +1,6 @@
+# grader-base runtime dependencies.
+#
+# PyYAML is the only third-party dependency: the framework loads stage
+# configs (ordered steps + optional tests) from YAML. No hand-rolled YAML
+# parser is used. Pinned for reproducible base-image builds.
+PyYAML==6.0.2

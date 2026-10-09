@@ -1,0 +1,7 @@
+# Exclude dev/smoke artifacts from the image build context.
+smoke.sh
+README.md
+__pycache__/
+*.pyc
+.git/
+.gitignore
