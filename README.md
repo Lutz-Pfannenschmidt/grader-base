@@ -3,7 +3,8 @@
 The shared framework base image for the **builder** and **grader** stages.
 Derived images (`builder-example`, `grader-example`) `FROM grader-base:latest`
 and add only their stage config YAML, task tests, example workspace, smoke
-tests, and stage README — no `run.py`, `testrunner.py`, schema, or framework
+tests, stage README, and (for graders) the task structure manifest at
+`/hopper/manifest.yaml` — no `run.py`, `testrunner.py`, schema, or framework
 logic is duplicated.
 
 ## What it contains
